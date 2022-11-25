@@ -1,0 +1,50 @@
+.tasks {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: ghostwhite;
+}
+.tasks h3 {
+    margin: auto;
+    text-align: center;
+    border-bottom: 1px solid white;
+}
+
+.tasks_table {
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+    height: 70%;
+    border: 1px solid white;
+}
+
+.tasks_table .Queue {
+    width: 33.3%;
+    height: 100%;
+    background-color: deepskyblue;
+    border: 1px solid white;
+}
+
+.tasks_table .Done {
+    width: 33.3%;
+    height: 100%;
+    background-color: burlywood;
+    border: 1px solid white;
+}
+
+.tasks_table .Development {
+    width: 33.3%;
+    height: 100%;
+    background-color: darkseagreen;
+    border: 1px solid white;
+}
+
+.task {
+    height: 40px;
+    margin: auto;
+    text-align: center;
+    border: 1px solid white;
+    background-color: slateblue;
+}
