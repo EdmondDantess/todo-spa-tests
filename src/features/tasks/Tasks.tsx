@@ -1,78 +1,68 @@
 import React, {useEffect, useState} from 'react';
 import './tasks.css'
 import {useAppSelector} from '../../app/hooks';
-import {BoardType, editTask, setNewBoard, setTasksInBoards, TasksType, TaskType} from './tasks-reducer';
+import {editTask, TaskStatus, TaskType} from './tasks-reducer';
 import {DivToInput} from '../../common/components/DivToInput';
 import {useDispatch} from 'react-redux';
 
 
+export type BoardType = { id: number, title: TaskStatus, items: TaskType[] }
+
 export const Tasks = () => {
     const dispatch = useDispatch()
     const tasks = useAppSelector(state => state.tasks.tasks)
-    const boardFromState = useAppSelector(state => state.tasks.boards)
+    // const boardFromState = useAppSelector(state => state.tasks.boards)
     const [currentBoard, setCurrentBoard] = useState<any>(null)
     const [currentItem, setCurrentItem] = useState<any>(null)
-
+    const [boards, setBoards] = useState<BoardType[]>([
+        {id: 1, title: 'Queue', items: []},
+        {id: 2, title: 'Development', items: []},
+        {id: 3, title: 'Done', items: []},
+    ])
 
     useEffect(() => {
-        dispatch(setTasksInBoards(tasks as TasksType, '1000'))
-
+        for (let i = 0; i < boards.length; i++) {
+            boards[i].items = tasks['1000'].filter(t => t.status === boards[i].title)
+            setBoards([...boards])
+        }
+        console.log('useeffect')
     }, [tasks])
+
 
     function dragOverHandler(e: React.DragEvent<HTMLDivElement>) {
         e.preventDefault()
-        if (e.currentTarget.className === 'task')
+        if (e.currentTarget.className === 'task') {
             e.currentTarget.style.boxShadow = '0 4px 3px gray'
+
+        }
     }
 
     function dragLeaveHandler(e: React.DragEvent<HTMLDivElement>) {
         e.currentTarget.style.boxShadow = 'none'
-
     }
 
-    function dragStartHandler(e: React.DragEvent<HTMLDivElement>, boardDnD: any, item: any) {
+    function dragStartHandler(e: React.DragEvent<HTMLDivElement>, boardDnD: BoardType, item: any) {
+        e.stopPropagation()
         setCurrentBoard(boardDnD)
         setCurrentItem(item)
     }
 
     function dragEndHandler(e: React.DragEvent<HTMLDivElement>) {
         e.currentTarget.style.boxShadow = 'none'
-
     }
 
-    function dropHandler(e: React.DragEvent<HTMLDivElement>, boardDnD: any, item: any) {
+    function dropHandler(e: React.DragEvent<HTMLDivElement>, boardDnD: BoardType, item: any) {
         e.preventDefault()
-        // const currentIndex = currentBoard.items.indexOf(currentItem)
-        // currentBoard.items.splice(currentIndex, 1)
-        // const dropIndex = boardDnD.items.indexOf(item)
-        // boardDnD.items.splice(dropIndex + 1, 0, currentItem)
-        //
-        // dispatch(setNewBoard(boardFromState.map(b => {
-        //     if (b.id === boardDnD.id) {
-        //         return boardDnD
-        //     }
-        //     if (b.id === currentBoard.id) {
-        //         return currentBoard
-        //     }
-        //     return b
-        // })))
-        // // dispatch(editTask({
-        // //     taskNumber: currentItem.taskNumber,
-        // //     title: currentItem.title,
-        // //     status: boardDnD.title
-        // // }, '1000'))
+        const currentIndex = currentBoard.items.indexOf(currentItem)
+        currentBoard.items.splice(currentIndex, 1)
+        const dropIndex = boardDnD.items.indexOf(item)
+        boardDnD.items.splice(dropIndex + 1, 0, currentItem)
         dispatch(editTask({
             taskNumber: currentItem.taskNumber,
             title: currentItem.title,
             status: boardDnD.title
         }, '1000'))
-    }
-
-    function dropCardHandler(e: React.DragEvent<HTMLDivElement>, boardDnD: BoardType, item: any) {
-        boardDnD.items.push(currentItem)
-        const currentIndex = currentBoard.items.indexOf(currentItem)
-        currentBoard.items.splice(currentIndex, 1)
-        dispatch(setNewBoard(boardFromState.map(b => {
+        setBoards(boards.map(b => {
             if (b.id === boardDnD.id) {
                 return boardDnD
             }
@@ -80,8 +70,24 @@ export const Tasks = () => {
                 return currentBoard
             }
             return b
-        })))
-        console.log(currentItem)
+        }))
+
+    }
+
+    function dropCardHandler(e: React.DragEvent<HTMLDivElement>, boardDnD: BoardType) {
+        e.preventDefault()
+        boardDnD.items.push(currentItem)
+       const currentIndex = currentBoard.items.indexOf(currentItem)
+       currentBoard.items.splice(currentIndex, 1)
+        setBoards(boards.map(b => {
+            if (b.id === boardDnD.id) {
+                return boardDnD
+            }
+            if (b.id === currentBoard.id) {
+                return currentBoard
+            }
+            return b
+        }))
         dispatch(editTask({
             taskNumber: currentItem.taskNumber,
             title: currentItem.title,
@@ -89,8 +95,8 @@ export const Tasks = () => {
         }, '1000'))
     }
 
-    let boardDnDWithTasks = boardFromState.map((m, index) => {
-        let task = m.items.map((task: TaskType, i) => {
+    let boardDnDWithTasks = boards.map((b, index) => {
+        let task = b.items.map((task: TaskType, i) => {
             const onTitleChangeHandler = (newValue: string) => {
                 dispatch(editTask({
                     taskNumber: task.taskNumber,
@@ -101,18 +107,18 @@ export const Tasks = () => {
             return <div className={'task'} key={i}
                         onDragOver={(e) => dragOverHandler(e)}
                         onDragLeave={e => dragLeaveHandler(e)}
-                        onDragStart={e => dragStartHandler(e, m, task)}
+                        onDragStart={e => dragStartHandler(e, b, task)}
                         onDragEnd={e => dragEndHandler(e)}
-                        onDrop={e => dropHandler(e, m, task)}
+                        onDrop={e => dropHandler(e, b, task)}
                         draggable={true}>
                 <DivToInput value={task.title} onChange={onTitleChangeHandler}/>
             </div>
         })
-        return <div className={`${m.title}`} key={index}
+        return <div className={`${b.title}`} key={index}
                     onDragOver={(e) => dragOverHandler(e)}
-                    onDrop={e => dropCardHandler(e, m, task)}
+                  onDrop={e => dropCardHandler(e, b)}
         >
-            <h3>{m.title}</h3>
+            <h3>{b.title}</h3>
             {task}
         </div>
 
