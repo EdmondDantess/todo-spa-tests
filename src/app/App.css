@@ -3,4 +3,5 @@ box-sizing: border-box;
 }
 
 .App {
+    user-select:none;
 }

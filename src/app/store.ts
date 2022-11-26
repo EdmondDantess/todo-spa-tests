@@ -1,16 +1,18 @@
 import {projectsReducer} from '../features/projects/projects-reducer';
 import {combineReducers, legacy_createStore as createStore} from 'redux';
 import {TasksActionsType, tasksReducer} from '../features/tasks/tasks-reducer';
+import {TaskActionsType, taskReducer} from '../features/tasks/task/task-reducer';
 
 
 const rootReducer = combineReducers({
     projects: projectsReducer,
-    tasks: tasksReducer
+    tasks: tasksReducer,
+    task: taskReducer
 })
 
 export const store = createStore(rootReducer)
 
-export type AppActionsType = TasksActionsType
+export type AppActionsType = TasksActionsType | TaskActionsType
 
 export type RootState = ReturnType<typeof rootReducer>
 export type AppDispatch = typeof store.dispatch
