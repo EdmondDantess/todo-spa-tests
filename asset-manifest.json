@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/todo-spa-tests/static/css/main.3813a467.css",
-    "main.js": "/todo-spa-tests/static/js/main.56b21605.js",
+    "main.css": "/todo-spa-tests/static/css/main.8669ab93.css",
+    "main.js": "/todo-spa-tests/static/js/main.9adc114f.js",
     "static/js/787.83d7cb23.chunk.js": "/todo-spa-tests/static/js/787.83d7cb23.chunk.js",
     "index.html": "/todo-spa-tests/index.html",
-    "main.3813a467.css.map": "/todo-spa-tests/static/css/main.3813a467.css.map",
-    "main.56b21605.js.map": "/todo-spa-tests/static/js/main.56b21605.js.map",
+    "main.8669ab93.css.map": "/todo-spa-tests/static/css/main.8669ab93.css.map",
+    "main.9adc114f.js.map": "/todo-spa-tests/static/js/main.9adc114f.js.map",
     "787.83d7cb23.chunk.js.map": "/todo-spa-tests/static/js/787.83d7cb23.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.3813a467.css",
-    "static/js/main.56b21605.js"
+    "static/css/main.8669ab93.css",
+    "static/js/main.9adc114f.js"
   ]
 }
