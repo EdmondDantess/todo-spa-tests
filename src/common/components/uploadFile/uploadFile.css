@@ -1,0 +1,24 @@
+.custom_pin_button {
+    font-size: 13px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 20px;
+    width: 100px;
+    border: 1px solid white;
+    background-color: slateblue;
+    color: white;
+}
+
+.custom_pin_button:hover {
+    background-color: rgba(106, 90, 205, 0.4);
+}
+
+.block_custom_fileload {
+    margin-top: 13px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    height: 20px;
+}

@@ -1,10 +1,11 @@
 import React, {MouseEvent, useState} from 'react';
 import './task.css'
 import {useAppDispatch, useAppSelector} from '../../../app/hooks';
-import {addComment, CommentsType, setCurrentIdTask} from './task-reducer';
+import {addComment, setCurrentIdTask} from './task-reducer';
 import {TaskType} from '../tasks-reducer';
 import {Comment} from './comment/Comment';
 import {InputTypeFile} from '../../../common/components/uploadFile/uploadFile';
+import {downloadHandler} from './utils/downloadFile';
 
 
 type TaskPropsType = {
@@ -15,9 +16,9 @@ export const Task: React.FC<TaskPropsType> = ({task}) => {
     const [commentValue, setCommentValue] = useState<string>('')
 
     const dispatch = useAppDispatch()
-    let tasks = useAppSelector(state => state.tasks.tasks['1000'].find(t => t.taskNumber === task.taskNumber))
-    let isOpen = useAppSelector(state => state.task.isOpen)
-    let files = useAppSelector(state => state.uploadFile)
+    const tasks = useAppSelector(state => state.tasks.tasks['1000'].find(t => t.taskNumber === task.taskNumber))
+    const isOpen = useAppSelector(state => state.task.isOpen)
+    const files = useAppSelector(state => state.uploadFile)
     const description = useAppSelector(state => state.tasks.tasks['1000'].find(d => d.taskNumber === task.taskNumber)?.description || '')
 
     function addCommentHandler(e: MouseEvent<HTMLButtonElement>) {
@@ -49,14 +50,18 @@ export const Task: React.FC<TaskPropsType> = ({task}) => {
                             </div>
                             <div className={'task_description'}>
                                 <span>Description:</span> {description}
-                                <div style={{display: 'flex'}}>  {
-                                    files['1000'][tasks.taskNumber]?.map(f => {
-                                        return <div key={Math.random()}><img src={f} alt="" style={{width: '100px', height: '100px'}}/></div>
-                                    } )
-                                }</div>
-                                <InputTypeFile/>
                             </div>
+                            <div style={{display: 'flex'}} className={'field_pin_files'}>  {
+                                files['1000'][tasks.taskNumber]?.map(f => {
+                                    return <div key={Math.random()} title={f.name}>
+                                        file: {f.name.slice(0, 10)}...
+                                        <button onClick={() => downloadHandler(f, f.type, f.name)}>download</button>
+                                    </div>
+                                })
+                            }</div>
+                            <InputTypeFile/>
                         </div>
+
                         <div className={'task_right_block'}>
                             <div className={'comments_board'}>
                                 <Comment task={task}/>

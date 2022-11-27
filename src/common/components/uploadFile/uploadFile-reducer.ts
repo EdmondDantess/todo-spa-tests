@@ -1,6 +1,6 @@
 const initialState = {
     '1000': {
-        2: ['https://i.pinimg.com/236x/9d/fc/dc/9dfcdc098ba899f6b78b67ae2bad1929.jpg', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3gcWdx1ZhM0wkMZ0-VNFCWhdfKFp_M9xOteTjsRIHqQ&s'],
+        2: [],
         1: [],
         3: [],
         4: [],
@@ -19,12 +19,25 @@ export const uploadFileReducer = (state: InitStateType = initialState, action: U
                         action.payload.file]
                 }
             }
+        case 'uploadFile/CREATE-FIELD':
+            let dataToSet
+            if (action.payload.taskId) {
+                dataToSet = {[action.payload.projectId]: {}}
+            } if (!!action.payload.taskId) {
+                dataToSet = {
+                    [action.payload.projectId]: {
+                        ...state[action.payload.projectId],
+                        [action.payload.taskId]: []
+                    }
+                }
+            }
+            return {...state, ...dataToSet}
         default:
             return state
     }
 }
 
-export const addFile = (file: string, projectId: string, taskId: number) => {
+export const addFile = (file: File, projectId: string, taskId: number) => {
     return {
         type: 'uploadFile/ADD-FILE',
         payload: {
@@ -34,14 +47,24 @@ export const addFile = (file: string, projectId: string, taskId: number) => {
         }
     } as const
 }
+export const createFieldFile = (projectId: string, taskId?: number) => {
+    return {
+        type: 'uploadFile/CREATE-FIELD',
+        payload: {
+            projectId,
+            taskId
+        }
+    } as const
+}
 
 type InitStateType = typeof initialState
 
 export type UploadFilesActions =
-    ReturnType<typeof addFile>
+    ReturnType<typeof addFile> |
+    ReturnType<typeof createFieldFile>
 
 type FilesType = {
     [key: string]: {
-        [key: number]: string[]
+        [key: number]: File[]
     }
 }

@@ -33,15 +33,16 @@ export const Comment: React.FC<CommentPropsType> = ({task}) => {
             return <div
                 className={'task_comment'}
                 key={Math.random()}>
-                <div style={{display: 'flex'}}>{com.comment}
+                <div style={{display: 'flex'}}>
+
+                    <button style={{width: '36px', display: 'flex', justifyContent: 'center'}}
+                            onClick={() => addNewCommentHandler(com.comment, com.commentId)}>reply
+                    </button>
+                    {com.comment}
                     {addComment && currentCommentId === com.commentId ? <input autoFocus
                                                                                value={comment}
                                                                                style={{backgroundColor: 'whitesmoke'}}
                                                                                onChange={e => setComment(e.currentTarget.value)}/> : <></>}
-                    <button style={{width: '36px', display: 'flex', justifyContent: 'center'}}
-                            onClick={() => addNewCommentHandler(com.comment, com.commentId)}>reply
-                    </button>
-
 
                 </div>
                 <div style={{paddingLeft: '22px'}}>{tree}</div>

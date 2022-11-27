@@ -6,12 +6,17 @@ import {DivToInput} from '../../common/components/DivToInput';
 import {CreateTask} from './createTask/CreateTask';
 import {Task} from './task/Task';
 import {setCurrentIdTask} from './task/task-reducer';
+import {useNavigate} from 'react-router-dom';
+import {PATH} from '../pages/Pages';
 
 
 export type BoardType = { id: number, title: TaskStatus, items: TaskType[] }
 
+
+
 export const Tasks = () => {
     const dispatch = useAppDispatch()
+    const navigate = useNavigate()
     const tasks = useAppSelector(state => state.tasks.tasks)
     const [currentBoard, setCurrentBoard] = useState<any>(null)
     const [currentItem, setCurrentItem] = useState<any>(null)
@@ -27,6 +32,10 @@ export const Tasks = () => {
             setBoards([...boards])
         }
     }, [tasks])
+
+    function navigateToProjects() {
+        navigate(PATH.PROJECTS)
+    }
 
     function dragOverHandler(e: React.DragEvent<HTMLDivElement>) {
         e.preventDefault()
@@ -69,14 +78,12 @@ export const Tasks = () => {
                 }, '1000'))
             }
             return <div key={t.taskNumber + t.title} style={{backgroundColor: 'slateblue'}} className={'task'}
-                        onDragStart={e => dragStartHandler(e, b, t)}
-                        onDragEnd={e => dragEndHandler(e)}
-                        draggable={true}>
+            >
                 <div
-
-                >
-                    <DivToInput value={t} onChange={onTitleChangeHandler}/>
-                </div>
+                    onDragStart={e => dragStartHandler(e, b, t)}
+                    onDragEnd={e => dragEndHandler(e)}
+                    draggable={true}
+                ><DivToInput value={t} onChange={onTitleChangeHandler}/></div>
                 <div style={{width: '100%'}}>
                     <span onClick={() => dispatch(setCurrentIdTask(true, t.taskNumber))} className={'button_task'}
                     >See task👁</span>
@@ -95,7 +102,10 @@ export const Tasks = () => {
 
     return (
         <div className={'tasks'}>
-            <button onClick={() => dispatch(openCloseCreateTask(true))}>Create task</button>
+            <div>
+                <button onClick={navigateToProjects}>Go to projects</button>
+                <button onClick={() => dispatch(openCloseCreateTask(true))}>Create task</button>
+            </div>
             <CreateTask/>
             <div className={'tasks_table'}>
                 {boardDnDWithTasks}

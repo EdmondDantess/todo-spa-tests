@@ -7,6 +7,11 @@
     height: 100vh;
     background-color: #393979;
 }
+.tasks button  {
+    width: 100px;
+    height: 40px;
+    margin-top: -5px;
+}
 
 .tasks_title {
     text-shadow: 1px 1px 5px black;
@@ -30,7 +35,7 @@
     box-shadow: 5px 5px 20px pink;
 }
 
-.tasks_table > .Queue {
+.tasks_table  .Queue {
     width: 33.3%;
     height: 100%;
     background-color: deepskyblue;
@@ -39,7 +44,7 @@
 
 }
 
-.tasks_table > .Done {
+.tasks_table  .Done {
     width: 33.3%;
     height: 100%;
     background-color: burlywood;
@@ -60,7 +65,6 @@
 .task {
     color: cornsilk;
     font-weight: 600;
-    z-index: 5;
     height: 110px;
     margin: auto;
     text-align: center;

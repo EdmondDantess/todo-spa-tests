@@ -1,8 +1,24 @@
 body {
-box-sizing: border-box;
+    box-sizing: border-box;
+    font-family: Arial, serif;
 }
 
 .App {
-    user-select:none;
+    user-select: none;
+}
+
+button {
+    color: white;
+    font-weight: 500;
+    background-color: slateblue;
+
+}
+
+button:hover {
+    background-color: rgba(106, 90, 205, 0.4);
+}
+
+button:active {
+    background-color: white;
 }
 
