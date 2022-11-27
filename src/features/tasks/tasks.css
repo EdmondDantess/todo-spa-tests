@@ -32,13 +32,13 @@
     width: 90vw;
     height: 90vh;
     border: 1px solid white;
-    box-shadow: 5px 5px 20px pink;
+    box-shadow: 5px 5px 20px #971a2e;
 }
 
 .tasks_table  .Queue {
     width: 33.3%;
     height: 100%;
-    background-color: deepskyblue;
+    background-color: #0999c1;
     border: 1px solid white;
     overflow: auto;
 
@@ -47,7 +47,7 @@
 .tasks_table  .Done {
     width: 33.3%;
     height: 100%;
-    background-color: burlywood;
+    background-color: #927449;
     border: 1px solid white;
     overflow: auto;
 
@@ -56,7 +56,7 @@
 .tasks_table > .Development {
     width: 33.3%;
     height: 100%;
-    background-color: darkseagreen;
+    background-color: #568956;
     border: 1px solid white;
     overflow: auto;
 
@@ -93,4 +93,14 @@
 
 .task_informationData {
     font-size: 12px;
+}
+.buttons_onhead_table {
+    display: flex;
+    justify-content: center;
+    margin-right: 60%;
+    width: 100%;
+}
+
+.buttons_onhead_table button {
+    height: 50px;
 }

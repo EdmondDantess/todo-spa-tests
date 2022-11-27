@@ -1,39 +1,59 @@
 const initialState = {
     windowCreateTask: false,
     tasks: {
-        '1000': [
+        1000: [
             {
                 taskNumber: 1,
                 title: 'some title',
                 status: 'Done',
                 startDate: '11/12/2022 11:02',
                 endDate: '11/12/2023 12:15', description: 'add notes, buy new monitors',
-                subTasks: [{subTaskId: 224114 ,done: false, task: 'sub task #1'}, {subTaskId: 212134 ,done: false, task: 'sub task #1'}]
+                subTasks: [{subTaskId: 224114, done: false, task: 'sub task #1'}, {
+                    subTaskId: 212134,
+                    done: false,
+                    task: 'sub task #1'
+                }]
             },
             {
                 taskNumber: 2, title: 'some title2', status: 'Queue',
                 startDate: '11/12/2022 11:02',
                 endDate: '11/12/2023 12:15', description: 'add notes, buy new monitors',
-                subTasks: [{subTaskId: 24214 ,done: false, task: 'sub task #1'}, {subTaskId: 212414 ,done: false, task: 'sub task #1'}]
+                subTasks: [{subTaskId: 24214, done: false, task: 'sub task #1'}, {
+                    subTaskId: 212414,
+                    done: false,
+                    task: 'sub task #1'
+                }]
 
             },
             {
                 taskNumber: 3, title: 'some title3', status: 'Development',
                 startDate: '11/12/2022 11:02',
                 endDate: '11/12/2023 12:15', description: 'add notes, buy new monitors',
-                subTasks: [{ subTaskId: 221414 ,done: true, task: 'sub task #1'}, {subTaskId: 244 ,done: false, task: 'sub task #1'}]
+                subTasks: [{subTaskId: 221414, done: true, task: 'sub task #1'}, {
+                    subTaskId: 244,
+                    done: false,
+                    task: 'sub task #1'
+                }]
             },
             {
                 taskNumber: 4, title: 'some title4', status: 'Queue',
                 startDate: '11/12/2022 11:02',
                 endDate: '11/12/2023 12:15', description: 'add notes, buy new monitors',
-                subTasks: [{subTaskId: 214214 ,done: false, task: 'sub task #1'}, {subTaskId: 214421 ,done: false, task: 'sub task #1'}]
+                subTasks: [{subTaskId: 214214, done: false, task: 'sub task #1'}, {
+                    subTaskId: 214421,
+                    done: false,
+                    task: 'sub task #1'
+                }]
             },
             {
                 taskNumber: 5, title: 'some title5', status: 'Queue',
                 startDate: '11/12/2022 11:02',
                 endDate: '11/12/2023 12:15', description: 'add notes, buy new monitors',
-                subTasks: [{subTaskId: 212144 ,done: false, task: 'sub task #1'}, {subTaskId: 21421 ,done: false, task: 'sub task #1'}]
+                subTasks: [{subTaskId: 212144, done: false, task: 'sub task #1'}, {
+                    subTaskId: 21421,
+                    done: false,
+                    task: 'sub task #1'
+                }]
             }
         ] as TaskType[],
     } as TasksType,
@@ -46,6 +66,8 @@ export const tasksReducer = (state: InitStateType = initialState, action: TasksA
                 {...t, ...action.payload.task} : t
             )
             return {...state, tasks: {...state.tasks, [action.payload.projectId]: copyTasks}}
+        case 'tasks/ADD-PROJID':
+            return {...state, tasks: {...state.tasks, [action.payload.projectId]: []}}
         case 'tasks/CREATE-TASK':
             return {
                 ...state,
@@ -70,7 +92,11 @@ export const tasksReducer = (state: InitStateType = initialState, action: TasksA
                 ...state, tasks: {
                     ...state.tasks,
                     [action.payload.projectId]: state.tasks[action.payload.projectId].map(t => t.taskNumber === action.payload.taskId ? {
-                        ...t, subTasks: t.subTasks.map(s=> s.subTaskId === action.payload.subTaskId ? {...s, done: action.payload.done}: s)
+                        ...t,
+                        subTasks: t.subTasks.map(s => s.subTaskId === action.payload.subTaskId ? {
+                            ...s,
+                            done: action.payload.done
+                        } : s)
                     } : t)
                 }
             }
@@ -78,8 +104,7 @@ export const tasksReducer = (state: InitStateType = initialState, action: TasksA
             return state
     }
 }
-
-export const editTask = (task: { taskNumber: number, title: string, status: TaskStatus, description?: string }, projectId: string) => {
+export const editTask = (task: { taskNumber: number, title: string, status: TaskStatus, description?: string }, projectId: number) => {
     return {
         type: 'tasks/UPDATE-TASK',
         payload: {
@@ -93,7 +118,15 @@ export const editTask = (task: { taskNumber: number, title: string, status: Task
         }
     } as const
 }
-export const createTask = (task: TaskType, projectId: string) => {
+export const addProjId = (projectId: number) => {
+    return {
+        type: 'tasks/ADD-PROJID',
+        payload: {
+            projectId
+        }
+    } as const
+}
+export const createTask = (task: TaskType, projectId: number) => {
     return {
         type: 'tasks/CREATE-TASK',
         payload: {
@@ -102,7 +135,7 @@ export const createTask = (task: TaskType, projectId: string) => {
         }
     } as const
 }
-export const addSubTask = (done: boolean, text: string, projectId: string, subTaskId: number, taskId: number) => {
+export const addSubTask = (done: boolean, text: string, projectId: number, subTaskId: number, taskId: number) => {
     return {
         type: 'tasks/CREATE-SUBTASK',
         payload: {
@@ -116,7 +149,7 @@ export const addSubTask = (done: boolean, text: string, projectId: string, subTa
         }
     } as const
 }
-export const doneSubTask = (done: boolean, projectId: string,subTaskId: number ,taskId: number) => {
+export const doneSubTask = (done: boolean, projectId: number, subTaskId: number, taskId: number) => {
     return {
         type: 'tasks/DONE-SUBTASK',
         payload: {
@@ -142,12 +175,13 @@ export type TasksActionsType =
     ReturnType<typeof createTask> |
     ReturnType<typeof addSubTask> |
     ReturnType<typeof doneSubTask> |
+    ReturnType<typeof addProjId> |
     ReturnType<typeof openCloseCreateTask>
 
 
 type InitStateType = typeof initialState
 
 export type TaskStatus = 'Queue' | 'Development' | 'Done'
-export type SubTasks = { done: boolean, task: string , subTaskId: number}
+export type SubTasks = { done: boolean, task: string, subTaskId: number }
 export type TaskType = { taskNumber: number, title: string, description?: string, status: TaskStatus, startDate: string, endDate: string, subTasks: SubTasks[] }
 export type TasksType = { [key: string]: TaskType[] }

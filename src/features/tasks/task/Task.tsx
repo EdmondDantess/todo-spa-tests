@@ -24,10 +24,11 @@ export const Task: React.FC<TaskPropsType> = ({task}) => {
     const [commentValue, setCommentValue] = useState<string>('')
 
     const dispatch = useAppDispatch()
-    const tasks = useAppSelector(state => state.tasks.tasks['1000'].find(t => t.taskNumber === task.taskNumber))
+    const projectId = useAppSelector(state => state.projects.currentProject)
+    const tasks = useAppSelector(state => state.tasks.tasks[projectId].find(t => t.taskNumber === task.taskNumber))
     const isOpen = useAppSelector(state => state.task.isOpen)
     const files = useAppSelector(state => state.uploadFile)
-    const description = useAppSelector(state => state.tasks.tasks['1000'].find(d => d.taskNumber === task.taskNumber)?.description || '')
+    const description = useAppSelector(state => state.tasks.tasks[projectId].find(d => d.taskNumber === task.taskNumber)?.description || '')
     const [descriptionValue, setDescriptionVAlue] = useState<string>(description)
     const [editDescription, setEditDescription] = useState<boolean>(false)
     const [subTask, setSubtask] = useState<string>('')
@@ -35,7 +36,7 @@ export const Task: React.FC<TaskPropsType> = ({task}) => {
 
     function addSubTaskHandler() {
         if (subTask.trim() !== '') {
-            dispatch(addSubTask(false, subTask, '1000', Date.now(), task.taskNumber))
+            dispatch(addSubTask(false, subTask, projectId, Date.now(), task.taskNumber))
             setSubtask('')
         }
     }
@@ -47,7 +48,7 @@ export const Task: React.FC<TaskPropsType> = ({task}) => {
             taskId: task.taskNumber,
             commentId: Date.now(),
             subComment: []
-        }, '1000', 0))
+        }, projectId, 0))
         setCommentValue('')
     }
 
@@ -57,7 +58,7 @@ export const Task: React.FC<TaskPropsType> = ({task}) => {
             title: task.title,
             status: task.status,
             description: descriptionValue
-        }, '1000'))
+        }, projectId))
         setDescriptionVAlue(description)
         setEditDescription(false)
     }
@@ -102,8 +103,8 @@ export const Task: React.FC<TaskPropsType> = ({task}) => {
                                     </div>
                                 }
                             </div>
-                            <div style={{display: 'flex'}} className={'field_pin_files'}>  {
-                                files['1000'][tasks.taskNumber]?.map(f => {
+                            <div style={{display: 'flex'}} className={'field_pin_files'} title={'File table'}>  {
+                                files[projectId][tasks.taskNumber]?.map(f => {
                                     return <div key={Math.random()} title={f.name}>
                                         file: {f.name.slice(0, 10)}...
                                         <button onClick={() => downloadHandler(f, f.type, f.name)}>download</button>
@@ -111,23 +112,24 @@ export const Task: React.FC<TaskPropsType> = ({task}) => {
                                 })
                             }</div>
                             <InputTypeFile/>
-
                             <div className={'subTasks'}>
-                                <div className={'subtasks_table'}>
+                                <div className={'subtasks_table'} title={'Tasks table'}>
                                     {
                                         tasks.subTasks?.map((s) => {
                                             return <div
+                                                key={s.subTaskId}
                                                 style={{
-                                                    position: 'relative',
+                                                    fontSize: '11px',
                                                     borderRight: '1px solid black',
+                                                    textAlign: 'left',
                                                     height: '100%',
-                                                    width: '100px'
+                                                    minWidth: '120px'
                                                 }}>
                                                 <button
-                                                    onClick={() => dispatch(doneSubTask(!s.done, '1000', s.subTaskId, task.taskNumber))}>{s.done ? '✅' :
+                                                    onClick={() => dispatch(doneSubTask(!s.done, projectId, s.subTaskId, task.taskNumber))}>{s.done ? '✅' :
                                                     <span style={{
-                                                        width: '10px',
-                                                        height: '10px',
+                                                        width: '9px',
+                                                        height: '9px',
                                                         border: '1px solid black'
                                                     }}>__</span>}</button>
                                                 {s.task}</div>

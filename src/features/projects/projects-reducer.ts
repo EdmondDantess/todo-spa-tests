@@ -1,25 +1,42 @@
+import {AppActionsType} from '../../app/store';
+
 type InitStateType = typeof initialState
 
 const initialState = {
-
-    projects: [{projectId: 1, title: 'some title'}]
+    currentProject: -1,
+    projects: [{projectId: 1000, title: 'Project first'} as any]
 }
 
-export const projectsReducer = (state: InitStateType = initialState, action: ProjectsActionsType): InitStateType => {
+export const projectsReducer = (state: InitStateType = initialState, action: AppActionsType): InitStateType => {
     switch (action.type) {
-        case 'projectsReducer/SET-datas':
-            return {...state}
+        case 'projectsReducer/CREATE-PROJECT':
+            return {...state, projects: [...state.projects, action.payload]}
+        case 'projectsReducer/SET-PROJID':
+            return {...state, currentProject: action.payload.projectId}
         default:
             return state
     }
 }
-export const setData = () => {
+
+export const createProject = (title: string, projectId: number) => {
     return {
-        type: 'projectsReducer/SET-datas',
-        payload: {}
+        type: 'projectsReducer/CREATE-PROJECT',
+        payload: {
+            title,
+            projectId
+        }
+    }
+}
+export const setCurrentProjId = (projectId: number) => {
+    return {
+        type: 'projectsReducer/SET-PROJID',
+        payload: {
+            projectId
+        }
     }
 }
 
 
 export type ProjectsActionsType =
-    ReturnType<typeof setData>
+    ReturnType<typeof createProject> |
+    ReturnType<typeof setCurrentProjId>

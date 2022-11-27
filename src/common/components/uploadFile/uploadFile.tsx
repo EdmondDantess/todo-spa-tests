@@ -6,6 +6,7 @@ import './uploadFile.css'
 export const InputTypeFile = () => {
     const dispatch = useAppDispatch()
     let taskId = useAppSelector(state => state.task.isOpen.taskId)
+    let projectId = useAppSelector(state => state.projects.currentProject)
 
     const inputRef = useRef<HTMLInputElement>(null)
 
@@ -13,7 +14,7 @@ export const InputTypeFile = () => {
         if (e.target.files && e.target.files.length) {
             const file = e.target.files[0]
             if (file.size < 100000) {
-                dispatch(addFile(file, '1000', taskId))
+                dispatch(addFile(file, projectId, taskId))
                 console.log('file: ', file)
             } else {
                 alert('File size is large! Choose files with size < 100kb ')

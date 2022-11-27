@@ -12,13 +12,17 @@ export const Comment: React.FC<CommentPropsType> = ({task}) => {
     const [currentCommentId, setCurrentCommentId] = useState<number>(0)
     const [addComment, setAddComment] = useState<boolean>(false)
     const dispatch = useAppDispatch()
-    let comments = useAppSelector(state => state.task.comments['1000'].filter((c: CommentsType) => c.taskId === task.taskNumber))
+    const projectId = useAppSelector(state => state.projects.currentProject)
+    const comments = useAppSelector(state => {
+
+      return   state.task.comments[projectId].filter((c: CommentsType) => c.taskId === task.taskNumber)
+    })
 
     function addNewCommentHandler(text: string, commentId: number) {
         setCurrentCommentId(commentId)
         setAddComment(!addComment)
         if (comment.trim() !== '') {
-            dispatch(replyComment(comment, commentId, '1000'))
+            dispatch(replyComment(comment, commentId, projectId))
             setComment('')
         }
 

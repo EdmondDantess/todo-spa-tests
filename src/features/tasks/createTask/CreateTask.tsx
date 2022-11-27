@@ -6,27 +6,36 @@ import {createFieldFile} from '../../../common/components/uploadFile/uploadFile-
 
 export const CreateTask = () => {
     const dispatch = useAppDispatch()
-    let value = useAppSelector(state => state.tasks.windowCreateTask)
-    let tasks = useAppSelector(state => state.tasks.tasks)
+    const value = useAppSelector(state => state.tasks.windowCreateTask)
+    const tasks = useAppSelector(state => state.tasks.tasks)
+    const projectId = useAppSelector(state => state.projects.currentProject)
     const [nameTask, setNameTask] = useState<string>('')
     const [desciptionTask, setDescriptionTask] = useState<string>('')
     const [endTime, setEndTime] = useState<string>('')
 
+    let taskNumber = () => {
+        if (projectId !== -1 && tasks[projectId].length > 0 ) {
+            return tasks[projectId][tasks[projectId].length - 1].taskNumber + 1
+        } else return 1
+    }
+    let getTaskNum = taskNumber()
+
     function createTaskHandler() {
         const startDate = new Date()
         const endDate = new Date('2015-02-02T11:40')
-        const taskNumber = tasks['1000'][tasks['1000'].length - 1].taskNumber + 1
+
+
         dispatch(createTask({
-            taskNumber,
+            taskNumber: getTaskNum,
             title: nameTask,
             status: 'Queue',
             startDate: `${startDate}`,
             endDate: `${endDate}`,
             description: desciptionTask,
             subTasks: [],
-        }, '1000'))
+        }, projectId))
         dispatch(openCloseCreateTask(false))
-        dispatch(createFieldFile('1000', taskNumber))
+        dispatch(createFieldFile(projectId, getTaskNum))
         setNameTask('')
         setDescriptionTask('')
     }

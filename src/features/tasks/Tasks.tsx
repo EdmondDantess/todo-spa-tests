@@ -16,8 +16,9 @@ export const Tasks = () => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
     const tasks = useAppSelector(state => state.tasks.tasks)
-    const [currentBoard, setCurrentBoard] = useState<any>(null)
-    const [currentItem, setCurrentItem] = useState<any>(null)
+    const projectId = useAppSelector(state => state.projects.currentProject)
+    const [currentBoard, setCurrentBoard] = useState<BoardType | null>(null)
+    const [currentItem, setCurrentItem] = useState<TaskType | null>(null)
     const [boards, setBoards] = useState<BoardType[]>([
         {id: 1, title: 'Queue', items: []},
         {id: 2, title: 'Development', items: []},
@@ -25,9 +26,11 @@ export const Tasks = () => {
     ])
 
     useEffect(() => {
-        for (let i = 0; i < boards.length; i++) {
-            boards[i].items = tasks['1000'].filter(t => t.status === boards[i].title)
-            setBoards([...boards])
+        if (projectId !== -1 && tasks[projectId].length > 0) {
+            for (let i = 0; i < boards.length; i++) {
+                boards[i].items = tasks[projectId]?.filter(t => t.status === boards[i].title)
+                setBoards([...boards])
+            }
         }
     }, [tasks])
 
@@ -37,11 +40,10 @@ export const Tasks = () => {
 
     function dragOverHandler(e: React.DragEvent<HTMLDivElement>) {
         e.preventDefault()
-        e.currentTarget.style.opacity = '0.5'
     }
 
     function dragLeaveHandler(e: React.DragEvent<HTMLDivElement>) {
-        e.currentTarget.style.opacity = '1'
+        e.preventDefault()
     }
 
     function dragStartHandler(e: React.DragEvent<HTMLDivElement>, boardDnD: BoardType, item: TaskType) {
@@ -55,51 +57,53 @@ export const Tasks = () => {
 
     function dropCardHandler(e: React.DragEvent<HTMLDivElement>, boardDnD: BoardType) {
         e.preventDefault()
-        boardDnD.items.push(currentItem)
-        const currentIndex = currentBoard.items.indexOf(currentItem)
-        currentBoard.items.splice(currentIndex, 1)
+        boardDnD.items.push(currentItem!)
+        const currentIndex = currentBoard?.items.indexOf(currentItem!)
+        currentBoard?.items.splice(currentIndex!, 1)
         dispatch(editTask({
-            taskNumber: currentItem.taskNumber,
-            title: currentItem.title,
+            taskNumber: currentItem!.taskNumber,
+            title: currentItem!.title,
             status: boardDnD.title,
-        }, '1000'))
+        }, projectId))
         e.currentTarget.style.opacity = '1'
     }
 
     let boardDnDWithTasks = boards.map((b) => {
-        let task = b.items.map((t) => {
-            const onTitleChangeHandler = (newValue: string) => {
-                dispatch(editTask({
-                    taskNumber: t.taskNumber,
-                    title: newValue,
-                    status: t.status,
-                }, '1000'))
-            }
-            return <div key={t.taskNumber + t.title} style={{backgroundColor: 'slateblue'}} className={'task'}>
-                <div
-                    onDragStart={e => dragStartHandler(e, b, t)}
-                    onDragEnd={e => dragEndHandler(e)}
-                    draggable={true}
-                ><DivToInput value={t} onChange={onTitleChangeHandler}/></div>
-                <div style={{width: '100%'}}>
+        if (b.items) {
+            let task = b.items.map((t) => {
+                const onTitleChangeHandler = (newValue: string) => {
+                    dispatch(editTask({
+                        taskNumber: t.taskNumber,
+                        title: newValue,
+                        status: t.status,
+                    }, projectId))
+                }
+                return <div key={t.taskNumber + t.title} style={{backgroundColor: 'slateblue'}} className={'task'}>
+                    <div
+                        onDragStart={e => dragStartHandler(e, b, t)}
+                        onDragEnd={e => dragEndHandler(e)}
+                        draggable={true}
+                    ><DivToInput value={t} onChange={onTitleChangeHandler}/></div>
+                    <div style={{width: '100%'}}>
                     <span onClick={() => dispatch(setCurrentIdTask(true, t.taskNumber))} className={'button_task'}
                     >See task👁</span>
-                    <Task task={t}/>
+                        <Task task={t}/>
+                    </div>
                 </div>
+            })
+            return <div className={`${b.title}`} key={b.id + b.title}
+                        onDragOver={(e) => dragOverHandler(e)}
+                        onDrop={e => dropCardHandler(e, b)}
+                        onDragLeave={e => dragLeaveHandler(e)}>
+                <h3 className={'tasks_title'}>{b.title}</h3>
+                {task}
             </div>
-        })
-        return <div className={`${b.title}`} key={b.id + b.title}
-                    onDragOver={(e) => dragOverHandler(e)}
-                    onDrop={e => dropCardHandler(e, b)}
-                    onDragLeave={e => dragLeaveHandler(e)}>
-            <h3 className={'tasks_title'}>{b.title}</h3>
-            {task}
-        </div>
+        }
     })
 
     return (
         <div className={'tasks'}>
-            <div>
+            <div className={'buttons_onhead_table'}>
                 <button onClick={navigateToProjects}>Go to projects</button>
                 <button onClick={() => dispatch(openCloseCreateTask(true))}>Create task</button>
             </div>
