@@ -12,8 +12,6 @@ import {PATH} from '../pages/Pages';
 
 export type BoardType = { id: number, title: TaskStatus, items: TaskType[] }
 
-
-
 export const Tasks = () => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
@@ -63,7 +61,7 @@ export const Tasks = () => {
         dispatch(editTask({
             taskNumber: currentItem.taskNumber,
             title: currentItem.title,
-            status: boardDnD.title
+            status: boardDnD.title,
         }, '1000'))
         e.currentTarget.style.opacity = '1'
     }
@@ -74,11 +72,10 @@ export const Tasks = () => {
                 dispatch(editTask({
                     taskNumber: t.taskNumber,
                     title: newValue,
-                    status: t.status
+                    status: t.status,
                 }, '1000'))
             }
-            return <div key={t.taskNumber + t.title} style={{backgroundColor: 'slateblue'}} className={'task'}
-            >
+            return <div key={t.taskNumber + t.title} style={{backgroundColor: 'slateblue'}} className={'task'}>
                 <div
                     onDragStart={e => dragStartHandler(e, b, t)}
                     onDragEnd={e => dragEndHandler(e)}

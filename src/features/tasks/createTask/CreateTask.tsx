@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import './create-task.css'
 import {useAppDispatch, useAppSelector} from '../../../app/hooks';
 import {createTask, openCloseCreateTask} from '../tasks-reducer';
-import {addFile, createFieldFile} from '../../../common/components/uploadFile/uploadFile-reducer';
+import {createFieldFile} from '../../../common/components/uploadFile/uploadFile-reducer';
 
 export const CreateTask = () => {
     const dispatch = useAppDispatch()
@@ -23,6 +23,7 @@ export const CreateTask = () => {
             startDate: `${startDate}`,
             endDate: `${endDate}`,
             description: desciptionTask,
+            subTasks: [],
         }, '1000'))
         dispatch(openCloseCreateTask(false))
         dispatch(createFieldFile('1000', taskNumber))

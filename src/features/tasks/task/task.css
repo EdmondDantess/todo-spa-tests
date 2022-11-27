@@ -81,7 +81,6 @@
 .comments_board {
     height: 80%;
     overflow: auto;
-
 }
 
 .task_comment {
@@ -96,6 +95,18 @@
     min-height: 100px;
     border: 1px solid black;
     font-weight: 400;
+    color: black;
+    overflow: auto;
+}
+
+.subtasks_table {
+    word-wrap: normal;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: darkseagreen;
+    height: 90px;
+    display: flex;
     color: black;
     overflow: auto;
 }

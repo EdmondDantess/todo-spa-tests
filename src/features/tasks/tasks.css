@@ -7,7 +7,7 @@
     height: 100vh;
     background-color: #393979;
 }
-.tasks button  {
+.tasks > button  {
     width: 100px;
     height: 40px;
     margin-top: -5px;
