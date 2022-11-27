@@ -9,12 +9,19 @@ type CommentPropsType = {
 
 export const Comment: React.FC<CommentPropsType> = ({task}) => {
     const [comment, setComment] = useState<string>('')
+    const [currentCommentId, setCurrentCommentId] = useState<number>(0)
+    const [addComment, setAddComment] = useState<boolean>(false)
     const dispatch = useAppDispatch()
     let comments = useAppSelector(state => state.task.comments['1000'].filter((c: CommentsType) => c.taskId === task.taskNumber))
 
     function addNewCommentHandler(text: string, commentId: number) {
-        dispatch(replyComment(comment, commentId, '1000'))
-        setComment('55')
+        setCurrentCommentId(commentId)
+        setAddComment(!addComment)
+        if (comment.trim() !== '') {
+            dispatch(replyComment(comment, commentId, '1000'))
+            setComment('')
+        }
+
     }
 
     function renderCommentsHandler(comments: CommentsType[]): JSX.Element[] {
@@ -27,9 +34,15 @@ export const Comment: React.FC<CommentPropsType> = ({task}) => {
                 className={'task_comment'}
                 key={Math.random()}>
                 <div style={{display: 'flex'}}>{com.comment}
-                    <button style={{width: '40px'}}
+                    {addComment && currentCommentId === com.commentId ? <input autoFocus
+                                                                               value={comment}
+                                                                               style={{backgroundColor: 'whitesmoke'}}
+                                                                               onChange={e => setComment(e.currentTarget.value)}/> : <></>}
+                    <button style={{width: '36px', display: 'flex', justifyContent: 'center'}}
                             onClick={() => addNewCommentHandler(com.comment, com.commentId)}>reply
                     </button>
+
+
                 </div>
                 <div style={{paddingLeft: '22px'}}>{tree}</div>
             </div>

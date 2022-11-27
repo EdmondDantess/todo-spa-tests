@@ -4,10 +4,10 @@ const initialState = {
     isOpen: {open: false, taskId: -1},
     comments: {
         '1000': [
-            {parentId: 124, taskId: 1, commentId: 168, comment: 'фывфыв', subComment: []},
-            {parentId: 1213214, taskId: 2, commentId: 681, comment: 'string', subComment: []},
-            {parentId: 1213, taskId: 3, commentId: 14, comment: 'task3', subComment: []},
-            {parentId: 11, taskId: 4, commentId: 164646, comment: 'string', subComment: []},
+            {parentId: 124, taskId: 1, commentId: 168, comment: 'test1', subComment: []},
+            {parentId: 1213214, taskId: 2, commentId: 681, comment: 'test2', subComment: []},
+            {parentId: 1213, taskId: 3, commentId: 14, comment: 'test3', subComment: []},
+            {parentId: 11, taskId: 4, commentId: 164646, comment: 'test4', subComment: []},
             {
                 parentId: 22,
                 taskId: 5,
@@ -36,7 +36,7 @@ export const taskReducer = (state: InitStateType = initialState, action: TaskAct
             return {...state, isOpen: action.payload.isOpen}
         case 'task/REPLY-TASK':
             const copyArrCommentsr = [...state.comments[action.payload.projectId]]
-            deepSearch(copyArrCommentsr, action.payload.commentId, 'action.payload.text')
+            deepSearch(copyArrCommentsr, action.payload.commentId, action.payload.text)
             return {
                 ...state,
                 comments: {...state.comments, [action.payload.projectId]: [...copyArrCommentsr]}

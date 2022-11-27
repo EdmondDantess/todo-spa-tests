@@ -1,14 +1,9 @@
 import {CommentsType} from '../task-reducer';
-import {log} from 'util';
 
-export function deepSearch(array: CommentsType[], commentId: number, text: string): any {
+export function deepSearch(array: CommentsType[], commentId: number, text: string): CommentsType[] {
     let copy = [...array]
-    //  debugger
-    // for (let i = 0; i < array.length; i++) {
     copy.map((c: CommentsType) => {
         if (c.commentId === commentId) {
-            console.log(commentId)
-            console.log(c.subComment)
             return c.subComment = [...c.subComment, {
                 parentId: c.parentId,
                 taskId: c.taskId,
@@ -19,11 +14,6 @@ export function deepSearch(array: CommentsType[], commentId: number, text: strin
         } else {
             return deepSearch(c.subComment, commentId, text)
         }
-
     })
-
     return copy
-    // }
 }
-
-//{ parentId: number, taskId: number, commentId: number, comment: string, subComment: CommentsType[] }

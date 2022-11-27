@@ -4,6 +4,7 @@ import {useAppDispatch, useAppSelector} from '../../../app/hooks';
 import {addComment, CommentsType, setCurrentIdTask} from './task-reducer';
 import {TaskType} from '../tasks-reducer';
 import {Comment} from './comment/Comment';
+import {InputTypeFile} from '../../../common/components/uploadFile/uploadFile';
 
 
 type TaskPropsType = {
@@ -16,6 +17,7 @@ export const Task: React.FC<TaskPropsType> = ({task}) => {
     const dispatch = useAppDispatch()
     let tasks = useAppSelector(state => state.tasks.tasks['1000'].find(t => t.taskNumber === task.taskNumber))
     let isOpen = useAppSelector(state => state.task.isOpen)
+    let files = useAppSelector(state => state.uploadFile)
     const description = useAppSelector(state => state.tasks.tasks['1000'].find(d => d.taskNumber === task.taskNumber)?.description || '')
 
     function addCommentHandler(e: MouseEvent<HTMLButtonElement>) {
@@ -35,8 +37,8 @@ export const Task: React.FC<TaskPropsType> = ({task}) => {
             {isOpen.taskId === tasks?.taskNumber ?
                 <div className={'task_modal_mask'}
                      style={{display: `${isOpen ? 'flex' : 'none'}`, backdropFilter: `${isOpen ? 'blur(4px)' : ''}`}}>
-                    <button onClick={() => dispatch(setCurrentIdTask(false, -1))}>X</button>
-
+                    <button onClick={() => dispatch(setCurrentIdTask(false, -1))} style={{marginLeft: '73%'}}>Close X
+                    </button>
                     <div className={'task_modal'}>
                         <div className={'task_left_block'}>
                             <div className={'header_task'}>
@@ -46,11 +48,17 @@ export const Task: React.FC<TaskPropsType> = ({task}) => {
                                 <div>Delivery date: <span>{task.endDate}</span></div>
                             </div>
                             <div className={'task_description'}>
-                                {description}
+                                <span>Description:</span> {description}
+                                <div style={{display: 'flex'}}>  {
+                                    files['1000'][tasks.taskNumber]?.map(f => {
+                                        return <div key={Math.random()}><img src={f} alt="" style={{width: '100px', height: '100px'}}/></div>
+                                    } )
+                                }</div>
+                                <InputTypeFile/>
                             </div>
                         </div>
                         <div className={'task_right_block'}>
-                            <div>
+                            <div className={'comments_board'}>
                                 <Comment task={task}/>
                             </div>
                             <div className={'task_textarea'}>

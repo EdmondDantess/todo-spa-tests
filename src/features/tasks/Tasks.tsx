@@ -68,11 +68,12 @@ export const Tasks = () => {
                     status: t.status
                 }, '1000'))
             }
-            return <div key={t.taskNumber + t.title} style={{ backgroundColor: 'slateblue'} } className={'task'}>
+            return <div key={t.taskNumber + t.title} style={{backgroundColor: 'slateblue'}} className={'task'}
+                        onDragStart={e => dragStartHandler(e, b, t)}
+                        onDragEnd={e => dragEndHandler(e)}
+                        draggable={true}>
                 <div
-                     onDragStart={e => dragStartHandler(e, b, t)}
-                     onDragEnd={e => dragEndHandler(e)}
-                     draggable={true}
+
                 >
                     <DivToInput value={t} onChange={onTitleChangeHandler}/>
                 </div>

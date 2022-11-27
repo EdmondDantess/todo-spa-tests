@@ -3,7 +3,6 @@ import './create-task.css'
 import {useAppDispatch, useAppSelector} from '../../../app/hooks';
 import {createTask, openCloseCreateTask} from '../tasks-reducer';
 
-
 export const CreateTask = () => {
     const dispatch = useAppDispatch()
     let value = useAppSelector(state => state.tasks.windowCreateTask)
@@ -23,9 +22,7 @@ export const CreateTask = () => {
             startDate: `${startDate}`,
             endDate: `${endDate}`,
             description: desciptionTask,
-
         }, '1000'))
-
         dispatch(openCloseCreateTask(false))
         setNameTask('')
         setDescriptionTask('')
