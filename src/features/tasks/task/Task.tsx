@@ -48,7 +48,7 @@ export const Task: React.FC<TaskPropsType> = ({task}) => {
             taskId: task.taskNumber,
             commentId: Date.now(),
             subComment: []
-        }, projectId, 0))
+        }, projectId, -1))
         setCommentValue('')
     }
 
@@ -75,14 +75,25 @@ export const Task: React.FC<TaskPropsType> = ({task}) => {
                     <div className={'task_modal'}>
                         <div className={'task_left_block'}>
                             <div className={'header_task'}>
-                                <div>Title: <span>{task.title}</span></div>
+                                <div>Title: <span>{task.title.trim() === '' ? 'no title' : task.title}</span></div>
+                                <div>Priority: <span>{task.priority}</span>
+                                    <button onClick={() => dispatch(editTask({
+                                        taskNumber: task.taskNumber,
+                                        title: task.title,
+                                        status: task.status,
+                                        description: task.description,
+                                        priority: task.priority === 'high' ? 'normal' : 'high'
+                                    }, projectId))}>Change to {task.priority === 'high' ? 'normal' : 'high'}</button>
+                                </div>
                                 <div>Status: <span>{task.status}</span></div>
-                                <div>Date of creation: <span>{task.startDate}</span></div>
-                                <div>Delivery date: <span>{task.endDate}</span></div>
+                                <div>Date of creation: <span>{task.startDate.slice(0, 21)}</span></div>
+                                <div>Delivery date: <span>{task.endDate.slice(0, 21)}</span></div>
                             </div>
                             <div className={'task_description'}>
                                 {editDescription ? <div style={{position: 'relative'}}>
                                     <textarea value={descriptionValue}
+                                              autoFocus
+                                              placeholder={'Create subtask'}
                                               style={{
                                                   height: '100%',
                                                   width: '90%',
@@ -90,10 +101,10 @@ export const Task: React.FC<TaskPropsType> = ({task}) => {
                                                   backgroundColor: `rgba(185, 182, 182, 0.57)`,
                                               }}
                                               onChange={e => setDescriptionVAlue(e.currentTarget.value)}></textarea>
-                                        <button style={styleForButtonDesc} onClick={editDescriptionHandler}>Edit description
+                                        <button style={styleForButtonDesc} onClick={editDescriptionHandler}>Edit
                                         </button>
                                     </div>
-                                    : <div style={{position: 'relative', height: '100%'}}
+                                    : <div style={{position: 'relative', height: '100%', overflow: 'auto'}}
                                            onDoubleClick={() => setEditDescription(true)}>
                                         <span>Description:</span> {description}
                                         <button
@@ -105,8 +116,8 @@ export const Task: React.FC<TaskPropsType> = ({task}) => {
                             </div>
                             <div style={{display: 'flex'}} className={'field_pin_files'} title={'File table'}>  {
                                 files[projectId][tasks.taskNumber]?.map(f => {
-                                    return <div key={Math.random()} title={f.name}>
-                                        file: {f.name.slice(0, 10)}...
+                                    return <div key={Math.random()} title={f.name} style={{float: 'left'}}>
+                                        file: {f.name?.slice(0, 10)}...
                                         <button onClick={() => downloadHandler(f, f.type, f.name)}>download</button>
                                     </div>
                                 })
@@ -142,7 +153,7 @@ export const Task: React.FC<TaskPropsType> = ({task}) => {
                                                   height: '100%',
                                                   width: '90%',
                                                   resize: 'none',
-                                                  backgroundColor: `rgba(185, 182, 182, 0.57)`,
+                                                  backgroundColor: `rgba(255, 255, 255, 0.57)`,
                                               }}
                                               onChange={e => setSubtask(e.currentTarget.value)}></textarea>
                                     <button onClick={addSubTaskHandler}>Add task</button>

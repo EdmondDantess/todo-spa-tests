@@ -13,10 +13,7 @@ export const Comment: React.FC<CommentPropsType> = ({task}) => {
     const [addComment, setAddComment] = useState<boolean>(false)
     const dispatch = useAppDispatch()
     const projectId = useAppSelector(state => state.projects.currentProject)
-    const comments = useAppSelector(state => {
-
-      return   state.task.comments[projectId].filter((c: CommentsType) => c.taskId === task.taskNumber)
-    })
+    const comments = useAppSelector(state => state.task.comments[projectId].filter((c: CommentsType) => c.taskId === task.taskNumber))
 
     function addNewCommentHandler(text: string, commentId: number) {
         setCurrentCommentId(commentId)
@@ -25,7 +22,6 @@ export const Comment: React.FC<CommentPropsType> = ({task}) => {
             dispatch(replyComment(comment, commentId, projectId))
             setComment('')
         }
-
     }
 
     function renderCommentsHandler(comments: CommentsType[]): JSX.Element[] {
@@ -37,17 +33,19 @@ export const Comment: React.FC<CommentPropsType> = ({task}) => {
             return <div
                 className={'task_comment'}
                 key={Math.random()}>
-                <div style={{display: 'flex'}}>
-
-                    <button style={{width: '36px', display: 'flex', justifyContent: 'center'}}
-                            onClick={() => addNewCommentHandler(com.comment, com.commentId)}>reply
-                    </button>
-                    {com.comment}
-                    {addComment && currentCommentId === com.commentId ? <input autoFocus
-                                                                               value={comment}
-                                                                               style={{backgroundColor: 'whitesmoke'}}
-                                                                               onChange={e => setComment(e.currentTarget.value)}/> : <></>}
-
+                <div style={{display: 'flex', flexDirection: 'column', position: 'relative'}}>
+                    <div style={{display: 'flex'}}>
+                        <button  style={{width:'36px', display: 'flex', justifyContent: 'center'}}
+                                onClick={() => addNewCommentHandler(com.comment, com.commentId)} >reply
+                        </button>
+                        {addComment && currentCommentId === com.commentId ?
+                            <input autoFocus
+                                   value={comment}
+                                   style={{backgroundColor: 'thistle', zIndex: 1}}
+                                   onChange={e => setComment(e.currentTarget.value)}/>
+                            : <></>}
+                    </div>
+                    <span style={{position: 'absolute', left: '40px', borderLeft: '1px solid black'}}>↘{com.comment}</span>
                 </div>
                 <div style={{paddingLeft: '22px'}}>{tree}</div>
             </div>

@@ -17,7 +17,7 @@ export const Page404 = () => {
             textAlign: 'center'
         }}
         >
-            Wrong route!!
+            Wrong route!
             <button onClick={() => navigate(-1)}
                  style={
                      {

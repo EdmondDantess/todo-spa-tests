@@ -1,4 +1,5 @@
 .createTaskBlur {
+    z-index: 1;
     flex-direction: column;
     justify-content: center;
     width: 100vw;
@@ -6,13 +7,19 @@
     position: absolute;
 }
 
-.modal {
-    font-size: 13px;
-    font-weight: 500;
+.modal_create {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
     margin: auto;
-    height: 70vh;
-    width: 70vw;
-    background-color: cornsilk;
+    max-height: 200px;
+    width: 50vw;
     box-shadow: 1px 1px 20px #e30d32;
+    background-color: rgba(143, 188, 143, 0.91);
+}
 
+
+.modal_create input {
+    background-color: #939d90;
 }

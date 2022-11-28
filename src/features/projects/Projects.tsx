@@ -3,7 +3,7 @@ import {useAppDispatch, useAppSelector} from '../../app/hooks';
 import './projects.css'
 import {useNavigate} from 'react-router-dom';
 import {PATH} from '../pages/Pages';
-import {createProject, setCurrentProjId} from './projects-reducer';
+import {createProject, deleteProject, setCurrentProjId} from './projects-reducer';
 import {addProjId} from '../tasks/tasks-reducer';
 import {addNewProjId} from '../../common/components/uploadFile/uploadFile-reducer';
 import {addNewProjID} from '../tasks/task/task-reducer';
@@ -28,9 +28,9 @@ export const Projects = () => {
         }
     }
 
-    async function routeToProj(projectId: number) {
+    function routeToProj(projectId: number) {
         dispatch(setCurrentProjId(projectId))
-        await navigate(PATH.TASKS)
+        navigate(PATH.TASKS)
     }
 
     return (
@@ -51,9 +51,19 @@ export const Projects = () => {
             <div className={'projects_list'}>
                 {
                     projects.map(p => (
-                        <div key={Math.random()} className={'project'}
-                             onClick={() => routeToProj(p.projectId)}>{p.title}
-                            <div style={{color: 'black'}}>Tasks: {tasks[p.projectId].length}</div>
+                        <div key={Math.random()} className={'project'}>
+                            <div style={{display: 'flex', flexDirection: 'column'}}>
+                                <span onClick={() => routeToProj(p.projectId)}
+                                      style={{cursor: 'pointer'}}
+                                      className={'project_title'}
+                                      title={p.title}
+                                >{p.title.slice(0, 10)}</span>
+                                <div style={{color: 'black'}}>Tasks: {tasks[p.projectId].length}</div>
+                                <button style={{height: '20px'}} onClick={() =>
+                                    dispatch(deleteProject(p.projectId))
+                                }>X
+                                </button>
+                            </div>
                         </div>
                     ))
                 }

@@ -13,18 +13,18 @@
 
 .projects_header {
     font-size: 30px;
-    margin: 5% auto -5%;
+    margin: 10% auto -15%;
     font-weight: bold;
     color: cornsilk;
     text-shadow: 1px 1px 5px darkseagreen;
 }
 
 .projects_list {
-    width: 60%;
+    max-width: 60%;
     box-shadow: 1px 1px 40px red;
     margin: auto;
     background-color: burlywood;
-    border: 1px solid blue;
+    border: 1px solid rgba(22, 22, 97, 0.2);
     overflow: auto;
 }
 
@@ -32,15 +32,13 @@
     text-align: center;
     float: left;
     border: 2px solid gray;
-    width: 19.5%;
-    height: 50px;
+    max-width: 19.5%;
+    height: 55px;
     color: white;
     background-color: #4682b4;
 }
 
 .project:hover {
-    cursor: pointer;
-    opacity: 0.8;
 }
 
 .button_create_project {
@@ -50,6 +48,9 @@
     height: 30%;
     box-shadow: 1px 1px 22px hotpink;
 }
+.create_input_wrapper_proj {
+    margin-top: 5%;
+}
 
 .create_input_wrapper_proj button {
     height: 110%;
@@ -58,7 +59,29 @@
 }
 
 .create_proj_input {
-       font-weight: bold;
+    font-weight: bold;
     font-size: 15px;
     background-color: darkseagreen;
+}
+
+.project_title:hover {
+    background-color: rgba(0, 0, 255, 0.25);
+}
+
+
+@media screen and (max-width: 535px) {
+    .button_create_project {
+        position: absolute;
+        right: 0;
+        text-align: center;
+        width: 60px;
+    }
+
+    .create_input_wrapper_proj input {
+        width: 150px;
+    }
+
+    .create_input_wrapper_proj {
+        margin-right: 50px;
+    }
 }

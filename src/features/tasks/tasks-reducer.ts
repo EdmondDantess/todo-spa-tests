@@ -4,6 +4,7 @@ const initialState = {
         1000: [
             {
                 taskNumber: 1,
+                priority: 'high',
                 title: 'some title',
                 status: 'Done',
                 startDate: '11/12/2022 11:02',
@@ -15,7 +16,9 @@ const initialState = {
                 }]
             },
             {
-                taskNumber: 2, title: 'some title2', status: 'Queue',
+                taskNumber: 2,
+                priority: 'normal',
+                title: 'some title2', status: 'Queue',
                 startDate: '11/12/2022 11:02',
                 endDate: '11/12/2023 12:15', description: 'add notes, buy new monitors',
                 subTasks: [{subTaskId: 24214, done: false, task: 'sub task #1'}, {
@@ -26,7 +29,9 @@ const initialState = {
 
             },
             {
-                taskNumber: 3, title: 'some title3', status: 'Development',
+                taskNumber: 3,
+                priority: 'normal',
+                title: 'some title3', status: 'Development',
                 startDate: '11/12/2022 11:02',
                 endDate: '11/12/2023 12:15', description: 'add notes, buy new monitors',
                 subTasks: [{subTaskId: 221414, done: true, task: 'sub task #1'}, {
@@ -36,7 +41,9 @@ const initialState = {
                 }]
             },
             {
-                taskNumber: 4, title: 'some title4', status: 'Queue',
+                taskNumber: 4,
+                priority: 'normal',
+                title: 'some title4', status: 'Queue',
                 startDate: '11/12/2022 11:02',
                 endDate: '11/12/2023 12:15', description: 'add notes, buy new monitors',
                 subTasks: [{subTaskId: 214214, done: false, task: 'sub task #1'}, {
@@ -46,7 +53,9 @@ const initialState = {
                 }]
             },
             {
-                taskNumber: 5, title: 'some title5', status: 'Queue',
+                taskNumber: 5,
+                priority: 'normal',
+                title: 'some title5', status: 'Queue',
                 startDate: '11/12/2022 11:02',
                 endDate: '11/12/2023 12:15', description: 'add notes, buy new monitors',
                 subTasks: [{subTaskId: 212144, done: false, task: 'sub task #1'}, {
@@ -104,7 +113,7 @@ export const tasksReducer = (state: InitStateType = initialState, action: TasksA
             return state
     }
 }
-export const editTask = (task: { taskNumber: number, title: string, status: TaskStatus, description?: string }, projectId: number) => {
+export const editTask = (task: { taskNumber: number, title: string, status: TaskStatus, description?: string, priority?: string }, projectId: number) => {
     return {
         type: 'tasks/UPDATE-TASK',
         payload: {
@@ -112,7 +121,8 @@ export const editTask = (task: { taskNumber: number, title: string, status: Task
                 taskNumber: task.taskNumber,
                 title: task.title,
                 status: task.status,
-                description: task.description
+                description: task.description,
+                priority: task.priority || 'normal'
             },
             projectId
         }
@@ -130,7 +140,8 @@ export const createTask = (task: TaskType, projectId: number) => {
     return {
         type: 'tasks/CREATE-TASK',
         payload: {
-            task,
+            task:
+                {...task, priority: 'normal'},
             projectId,
         }
     } as const
@@ -183,5 +194,5 @@ type InitStateType = typeof initialState
 
 export type TaskStatus = 'Queue' | 'Development' | 'Done'
 export type SubTasks = { done: boolean, task: string, subTaskId: number }
-export type TaskType = { taskNumber: number, title: string, description?: string, status: TaskStatus, startDate: string, endDate: string, subTasks: SubTasks[] }
+export type TaskType = { taskNumber: number, title: string, description?: string, status: TaskStatus, startDate: string, endDate: string, priority?: string, subTasks: SubTasks[] }
 export type TasksType = { [key: string]: TaskType[] }

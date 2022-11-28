@@ -13,6 +13,8 @@ export const projectsReducer = (state: InitStateType = initialState, action: App
             return {...state, projects: [...state.projects, action.payload]}
         case 'projectsReducer/SET-PROJID':
             return {...state, currentProject: action.payload.projectId}
+        case 'projectsReducer/DEL-PROJID':
+            return {...state, projects: state.projects.filter(p=> p.projectId !== action.payload.projectId)}
         default:
             return state
     }
@@ -35,8 +37,17 @@ export const setCurrentProjId = (projectId: number) => {
         }
     }
 }
+export const deleteProject = (projectId: number) => {
+    return {
+        type: 'projectsReducer/DEL-PROJID',
+        payload: {
+            projectId
+        }
+    }
+}
 
 
 export type ProjectsActionsType =
     ReturnType<typeof createProject> |
+    ReturnType<typeof deleteProject> |
     ReturnType<typeof setCurrentProjId>
