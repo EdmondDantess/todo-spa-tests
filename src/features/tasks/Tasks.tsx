@@ -126,7 +126,7 @@ export const Tasks = () => {
                 <button onClick={() => dispatch(openCloseCreateTask(true))}>Create task</button>
                 <input type="text" style={{backgroundColor: 'slateblue'}} value={searchText} placeholder={'Search text'}
                        onChange={(e) => searchTaskHandler(e.currentTarget.value)}/>
-                <button onClick={() => setSearchText('')}>X</button>
+                {searchText.trim() !== '' ?  <button onClick={() => setSearchText('')}>X</button> : <></>}
             </div>
             <CreateTask/>
             <div className={'tasks_table'}>
