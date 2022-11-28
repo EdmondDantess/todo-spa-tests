@@ -30,7 +30,7 @@ export const DivToInput = (props: EditableSpanPropsType) => {
                    style={{backgroundColor: 'bisque'}}/>
             <button>✅</button>
         </div>
-        : <div style={{position: 'relative', zIndex: 0, cursor: 'grab'}}><span>Task #{props.value.taskNumber}</span>
+        : <div style={{position: 'relative', zIndex: 0, cursor: 'grab'}}><span>Task №{props.value.taskNumber}</span>
             <br/>
             <span className={'task_informationData'}>end: {props.value.endDate.slice(0, 21)}</span>
             <br/><span style={{cursor: 'pointer'}}
