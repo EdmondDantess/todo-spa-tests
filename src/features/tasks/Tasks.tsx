@@ -35,7 +35,7 @@ export const Tasks = () => {
         }
         if (searchText.trim() !== '') {
             for (let i = 0; i < boards.length; i++) {
-                boards[i].items = tasks[projectId]?.filter(t => (t.title === searchText || t.taskNumber === +searchText) && t.status === boards[i].title)
+                boards[i].items = tasks[projectId]?.filter(t => (t.title.toLowerCase() === searchText.toLowerCase() || t.taskNumber === +searchText) && t.status === boards[i].title)
                 setBoards([...boards])
             }
         }
@@ -125,7 +125,8 @@ export const Tasks = () => {
                 <button onClick={navigateToProjects}>Go to projects</button>
                 <button onClick={() => dispatch(openCloseCreateTask(true))}>Create task</button>
                 <input type="text" style={{backgroundColor: 'slateblue'}} value={searchText} placeholder={'Search text'}
-                       onChange={(e) => searchTaskHandler(e.currentTarget.value)}/><button onClick={()=>setSearchText('')}>X</button>
+                       onChange={(e) => searchTaskHandler(e.currentTarget.value)}/>
+                <button onClick={() => setSearchText('')}>X</button>
             </div>
             <CreateTask/>
             <div className={'tasks_table'}>
