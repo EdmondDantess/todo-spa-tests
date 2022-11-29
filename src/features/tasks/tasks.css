@@ -40,6 +40,7 @@
     background-color: #0999c1;
     border: 1px solid white;
     overflow: clip;
+    overflow-y: auto;
 }
 
 .tasks_table  .Done {
@@ -47,7 +48,8 @@
     height: 100%;
     background-color: #927449;
     border: 1px solid white;
-    overflow: clip;
+    overflow-x: clip;
+    overflow-y: auto;
 
 }
 
@@ -56,8 +58,8 @@
     height: 100%;
     background-color: #568956;
     border: 1px solid white;
-    overflow: clip;
-
+    overflow-x: clip;
+    overflow-y: auto;
 }
 
 .task {

@@ -51,6 +51,7 @@ export const Tasks = () => {
 
     function dragOverHandler(e: React.DragEvent<HTMLDivElement>) {
         e.preventDefault()
+
     }
 
     function dragLeaveHandler(e: React.DragEvent<HTMLDivElement>) {
@@ -58,6 +59,7 @@ export const Tasks = () => {
     }
 
     function dragStartHandler(e: React.DragEvent<HTMLDivElement>, boardDnD: BoardType, item: TaskType) {
+
         setCurrentBoard(boardDnD)
         setCurrentItem(item)
     }
@@ -100,7 +102,7 @@ export const Tasks = () => {
                         onDragStart={e => dragStartHandler(e, b, t)}
                         onDragEnd={e => dragEndHandler(e)}
                         draggable={true}
-                    ><DivToInput value={t} onChange={onTitleChangeHandler}/></div>
+                                            ><DivToInput value={t} onChange={onTitleChangeHandler}/></div>
                     <hr/>
                     <div style={{width: '100%', marginTop: '-8px'}}>
                     <span onClick={() => dispatch(setCurrentIdTask(true, t.taskNumber))} className={'button_task'}>
