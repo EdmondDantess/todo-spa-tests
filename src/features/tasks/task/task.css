@@ -42,12 +42,12 @@
 .task_textarea {
     position: absolute;
     bottom: 0;
-    height: 20%;
+    height: 10%;
     display: flex;
     width: 100%;
 }
 
-.task_textarea >textarea {
+.task_textarea > textarea {
     background-color: rgba(255, 255, 255, 0.57);
     resize: none;
     width: 100%;
@@ -59,13 +59,17 @@
     color: black;
     font-weight: 500;
     border: solid 1px black;
-    height: 60px;
+    height: 30%;
 }
 
 .task_description span {
     color: slateblue;
 }
 
+.button_edit_description {
+    position: absolute;
+    right: 0;
+}
 
 .task_left_block {
     display: flex;

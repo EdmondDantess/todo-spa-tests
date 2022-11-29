@@ -14,7 +14,7 @@
     font-weight: bold;
     margin: auto;
     max-height: 200px;
-    width: 50vw;
+    width: 60vw;
     box-shadow: 1px 1px 20px #e30d32;
     background-color: rgba(143, 188, 143, 0.91);
 }
@@ -22,4 +22,10 @@
 
 .modal_create input {
     background-color: #939d90;
+}
+
+@media screen and (max-width: 704px) {
+    .modal_create {
+        width: 90vw;
+    }
 }

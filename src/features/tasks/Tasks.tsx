@@ -102,9 +102,9 @@ export const Tasks = () => {
                         draggable={true}
                     ><DivToInput value={t} onChange={onTitleChangeHandler}/></div>
                     <hr/>
-                    <div style={{width: '100%'}}>
-                    <span onClick={() => dispatch(setCurrentIdTask(true, t.taskNumber))} className={'button_task'}
-                    >See task👁</span>
+                    <div style={{width: '100%', marginTop: '-8px'}}>
+                    <span onClick={() => dispatch(setCurrentIdTask(true, t.taskNumber))} className={'button_task'}>
+                        See task👁</span>
                         <Task task={t}/>
                     </div>
                 </div>
@@ -126,7 +126,7 @@ export const Tasks = () => {
                 <button onClick={() => dispatch(openCloseCreateTask(true))}>Create task</button>
                 <input type="text" style={{backgroundColor: 'slateblue'}} value={searchText} placeholder={'Search text'}
                        onChange={(e) => searchTaskHandler(e.currentTarget.value)}/>
-                {searchText.trim() !== '' ?  <button onClick={() => setSearchText('')}>X</button> : <></>}
+                {searchText.trim() !== '' ? <button onClick={() => setSearchText('')}>X</button> : <></>}
             </div>
             <CreateTask/>
             <div className={'tasks_table'}>

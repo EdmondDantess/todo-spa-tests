@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {CommentsType, replyComment} from '../task-reducer';
 import {useAppDispatch, useAppSelector} from '../../../../app/hooks';
 import {TaskType} from '../../tasks-reducer';
+import './comment.css'
 
 type CommentPropsType = {
     task: TaskType
@@ -33,19 +34,19 @@ export const Comment: React.FC<CommentPropsType> = ({task}) => {
             return <div
                 className={'task_comment'}
                 key={Math.random()}>
-                <div style={{display: 'flex', flexDirection: 'column', position: 'relative'}}>
+                <div className={'block_comment'}>
                     <div style={{display: 'flex'}}>
-                        <button  style={{width:'36px', display: 'flex', justifyContent: 'center'}}
-                                onClick={() => addNewCommentHandler(com.comment, com.commentId)} >reply
+                        <button className={'reply_button'}
+                        onClick={() => addNewCommentHandler(com.comment, com.commentId)}>reply
                         </button>
                         {addComment && currentCommentId === com.commentId ?
                             <input autoFocus
                                    value={comment}
-                                   style={{backgroundColor: 'thistle', zIndex: 1}}
+                                   style={{backgroundColor: 'bisque', zIndex: 1}}
                                    onChange={e => setComment(e.currentTarget.value)}/>
-                            : <></>}
+                            : <span className={'span_comment'}>↘{com.comment}</span>
+                        }
                     </div>
-                    <span style={{position: 'absolute', left: '40px', borderLeft: '1px solid black'}}>↘{com.comment}</span>
                 </div>
                 <div style={{paddingLeft: '22px'}}>{tree}</div>
             </div>

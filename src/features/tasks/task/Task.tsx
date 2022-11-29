@@ -7,18 +7,9 @@ import {Comment} from './comment/Comment';
 import {InputTypeFile} from '../../../common/components/uploadFile/uploadFile';
 import {downloadHandler} from './utils/downloadFile';
 
-
-const styleForButtonDesc: any = {
-    position: 'absolute',
-    right: '0',
-    width: '10%',
-    height: '100%',
-}
-
 type TaskPropsType = {
     task: TaskType
 }
-
 
 export const Task: React.FC<TaskPropsType> = ({task}) => {
     const [commentValue, setCommentValue] = useState<string>('')
@@ -32,7 +23,6 @@ export const Task: React.FC<TaskPropsType> = ({task}) => {
     const [descriptionValue, setDescriptionVAlue] = useState<string>(description)
     const [editDescription, setEditDescription] = useState<boolean>(false)
     const [subTask, setSubtask] = useState<string>('')
-
 
     function addSubTaskHandler() {
         if (subTask.trim() !== '') {
@@ -57,12 +47,12 @@ export const Task: React.FC<TaskPropsType> = ({task}) => {
             taskNumber: task.taskNumber,
             title: task.title,
             status: task.status,
+            priority: task.priority,
             description: descriptionValue
         }, projectId))
         setDescriptionVAlue(description)
         setEditDescription(false)
     }
-
 
     return (
         <>
@@ -101,7 +91,8 @@ export const Task: React.FC<TaskPropsType> = ({task}) => {
                                                   backgroundColor: `rgba(185, 182, 182, 0.57)`,
                                               }}
                                               onChange={e => setDescriptionVAlue(e.currentTarget.value)}></textarea>
-                                        <button style={styleForButtonDesc} onClick={editDescriptionHandler}>Edit
+                                        <button className={'button_edit_description'}
+                                                onClick={editDescriptionHandler}>Edit
                                         </button>
                                     </div>
                                     : <div style={{position: 'relative', height: '100%', overflow: 'auto'}}
@@ -109,7 +100,7 @@ export const Task: React.FC<TaskPropsType> = ({task}) => {
                                         <span>Description:</span> {description}
                                         <button
                                             onClick={() => setEditDescription(true)}
-                                            style={styleForButtonDesc}>Edit
+                                            className={'button_edit_description'}>Edit
                                         </button>
                                     </div>
                                 }

@@ -1,5 +1,6 @@
 import {ChangeEvent, useState} from 'react';
 import {TaskType} from '../../features/tasks/tasks-reducer';
+import './divToInput.css'
 
 type EditableSpanPropsType = {
     value: TaskType
@@ -22,19 +23,20 @@ export const DivToInput = (props: EditableSpanPropsType) => {
         setTitle(e.currentTarget.value)
     }
 
-    return editMode
-        ?
-        <div style={{display: 'flex', justifyContent: 'center', cursor: 'pointer', margin: '3px auto', height: '27px'}}>
+    return editMode ?
+        <div className={'wrapper_input_edit_title'}>
             <div style={{fontSize: '10px'}}>Edit task title:</div>
-            <input value={title} onChange={changeTitle} autoFocus onBlur={activateViewMode}
+        <div>   <input value={title} onChange={changeTitle} autoFocus onBlur={activateViewMode}
                    style={{backgroundColor: 'bisque'}}/>
-            <button>✅</button>
+            <button>✅</button></div>
         </div>
-        : <div style={{position: 'relative', zIndex: 0, cursor: 'grab'}}><span>Task №{props.value.taskNumber}</span>
-            <br/>
+        : <div style={{position: 'relative', zIndex: 0, cursor: 'grab'}} className={'div_to_input'}>
+            <span className={'task_number'}>Task №{props.value.taskNumber}</span>
             <span className={'task_informationData'}>end: {props.value.endDate.slice(0, 21)}</span>
-            <br/><span style={{cursor: 'pointer'}}
-                       onClick={activateEditMode}>✎{title.trim() === '' ? 'no title' : title}</span>
+            <span style={{cursor: 'pointer', color: 'whitesmoke'}}
+                  onClick={activateEditMode}
+                  title={title}
+            >✎{title.trim().slice(0, 11)}</span>
 
             <div style={{
                 position: 'absolute',

@@ -58,10 +58,12 @@ export const CreateTask = () => {
                                                                                                                value={nameTask}
                                                                                                                onChange={e => setNameTask(e.currentTarget.value)}/>
                             </div>
-                            <div style={{display: 'flex', justifyContent: 'space-between'}}><span
-                                style={{fontSize: '12px'}}>Enter end time(in format: 2022-02-02T11:40):</span> <input
-                                type="text" value={endTime}
-                                onChange={e => setEndTime(e.currentTarget.value)}/>
+                            <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                                <span
+                                >Enter end time(in format: 2022-02-02T11:40):</span>
+                                <input
+                                    type="text" value={endTime}
+                                    onChange={e => setEndTime(e.currentTarget.value)}/>
                             </div>
                             <div style={{display: 'flex', justifyContent: 'space-between'}}>Description task: <input
                                 type="text" value={desciptionTask}

@@ -1,0 +1,23 @@
+.block_comment {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.span_comment {
+    display: flex;
+    flex-direction: row;
+    text-align: left;
+    word-break: break-word;
+    align-items: flex-end;
+    left: 40px;
+    border-left: 1px solid black;
+    border-bottom: 1px solid black
+}
+
+.reply_button {
+    height: 20px;
+    width: 36px;
+    display: flex;
+    justify-content: center
+}

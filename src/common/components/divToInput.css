@@ -1,0 +1,35 @@
+.wrapper_input_edit_title {
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    margin: 3px auto;
+    height: 27px
+}
+
+
+.div_to_input {
+    display: flex;
+    flex-direction: column;
+}
+
+
+@media screen and (max-width: 842px) {
+    .task_number {
+        margin-top: 20px;
+    }
+}
+@media screen and (max-width: 945px) {
+    .wrapper_input_edit_title {
+        display: flex;
+        flex-direction: column;
+        margin-top: 20px;
+        z-index: 1;
+    }
+    .wrapper_input_edit_title input {
+        width: 91%;
+    }
+    .wrapper_input_edit_title button {
+        width: 100px;
+    }
+}
+
