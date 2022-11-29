@@ -30,7 +30,7 @@ export const taskReducer = (state: InitStateType = initialState, action: TaskAct
             const copyArrComments = [...state.comments[action.payload.projectId]]
             return {
                 ...state,
-                comments: {...state.comments, [action.payload.projectId]: [...copyArrComments, action.payload.comment]}
+                comments: {...state.comments, [action.payload.projectId]: [action.payload.comment, ...copyArrComments]}
             }
         case 'task/EDIT-TASK':
             return {...state, isOpen: action.payload.isOpen}
