@@ -42,7 +42,7 @@
 
 .task_textarea {
     position: absolute;
-    height: 50px;
+    height: 10%;
     display: flex;
     width: 40%;
     top: 0
@@ -87,8 +87,10 @@
 }
 
 .comments_board {
-    margin-top: 50px;
-    height:100%;
+    position: absolute;
+    bottom: 0;
+    width: 40%;
+    height:90%;
     overflow: auto;
 }
 
